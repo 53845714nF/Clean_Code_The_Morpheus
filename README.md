@@ -1,7 +1,6 @@
 ---
 title: Clean Code
 author: Sebastian Feustel
-date: 2.März 2020
 ---
 
 # Clean Code
