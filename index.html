@@ -1,0 +1,241 @@
+<h1 id="clean-code">Clean Code</h1>
+<h2 id="mitschriften-von-clean-code-tutorial-von-the-morpheus-tutorials">Mitschriften von Clean Code Tutorial von The Morpheus Tutorials</h2>
+<p><a href="https://www.youtube.com/playlist?list=PLNmsVeXQZj7ryyZikMDPxxyYxEKtKn0ji">Link zur Playlist</a></p>
+<h3 id="einführung">1. Einführung</h3>
+<p>Sind Richtlinien für das saubere Programmieren.</p>
+<h4 id="warum">Warum?</h4>
+<ul>
+<li>Leserlich</li>
+<li>Strukturiert</li>
+<li>Kurze Einarbeitungszeit</li>
+<li>Bessere Lesbarkeit für fremde Personen</li>
+<li>Bessere Wartbarkeit</li>
+</ul>
+<h4 id="uncle-bob-formatting">Uncle Bob formatting</h4>
+<p>Die Reihenfolge der Attribute und Methoden sind wichtig. Es sollte versucht werden, Public Attribute zu vermeiden. Dafür sollten getter und setter Methoden angelegt werden.</p>
+<p>Ideale Reihenfolge:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Konto {
+    <span class="kw">public</span> <span class="bu">String</span> inhaber:
+
+    <span class="kw">private</span> <span class="dt">int</span> guthaben;
+
+    <span class="kw">public</span> <span class="fu">Konto</span>(){...}
+
+    <span class="kw">public</span> <span class="dt">static</span> ...
+
+    <span class="kw">private</span> <span class="dt">static</span> ...
+
+    <span class="kw">public</span> <span class="fu">ueberweisung</span>(...){...}
+
+    <span class="kw">public</span> <span class="fu">getGuthaben</span>(...){...}
+    <span class="kw">public</span> <span class="fu">setGuthaben</span>(...){...}
+}</code></pre></div>
+<h3 id="law-of-demeter">2. Law of Demeter</h3>
+<p>&quot;Don't talk to Strangers&quot; also, nicht so etwas:</p>
+<p><del>int i = getObj().getObj2().getObjA().getSomeOtherObject().getArray()[0];</del></p>
+<p>Darum mit <code>this</code> auf Objekte der Instanz zugreifen.</p>
+<h3 id="prinzip-der-kleinsten-überraschung">3. Prinzip der kleinsten Überraschung</h3>
+<h4 id="vorhersehbarkeit-von-programmablauf">Vorhersehbarkeit von Programmablauf</h4>
+<p>Das was in den Methodenname steht, sollte auch ausgeführt werden. Und nicht noch x-beliebige andere Aufgaben erfüllen.</p>
+<p>Negativbeispiel:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> A {
+    <span class="kw">private</span> <span class="bu">File</span> SomeUnimportantFile;
+
+    <span class="bu">File</span> <span class="fu">getUnimportantFile</span>(){
+        <span class="fu">launchNuklearMissile</span>();
+        <span class="kw">return</span> SomeUnimportantFile;
+    }
+
+    <span class="fu">launchNuklearMissile</span>(){
+        <span class="co">//Destroy Everything!</span>
+    }
+}</code></pre></div>
+<h4 id="logische-aufbau">Logische Aufbau</h4>
+<p>Also bei Aufzählungen sollte die Reihenfolge beachtet werden. Bei Wochentagen z.B.: Montag, Dienstag ... etc. Auch Teile die nicht erwartet werden, sollten raus gelassen werden, bei einer Aufzählung von Wochentagen sollte kein <code>&quot;Frei&quot;</code> dabei sein. Auch wenn <code>&quot;Frei&quot;</code> der Tag ist wo nicht gearbeitet wird.</p>
+<p>Negativbeispiel:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">enum</span> <span class="bu">Date</span> {
+    FREITAG, DIENSTAG, MITTWOCH, FREI
+}</code></pre></div>
+<h4 id="namen-benennen">Namen benennen</h4>
+<p>Um das Beispiel von oben nochmal aufzugreifen, haben wir jetzt die unvorhersehbare Ausführung (<code>launchNuklearMissile();</code>) entfernt.</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> A {
+    <span class="kw">private</span> <span class="bu">File</span> SomeUnimportantFile;
+
+    <span class="bu">File</span> <span class="fu">getUnimportantFile</span>(){
+        <span class="kw">return</span> SomeUnimportantFile;
+    }
+
+    <span class="kw">public</span> <span class="fu">launchNuklearMissile</span>(){
+        <span class="co">//Destroy Everything!</span>
+    }
+}</code></pre></div>
+<p>Doch jetzt fällt uns auf das <code>A</code> und <code>getUnimportantFile</code> nicht gerade sehr aussagekräftig sind, hierfür sollten eindeutigere Bezeichner benutzt werden.</p>
+<p>Beispiel:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Waffenstillstand {
+    <span class="kw">private</span> <span class="bu">File</span> vertrag;
+
+    <span class="bu">File</span> <span class="fu">getVertrag</span>(){ 
+        <span class="kw">return</span> vertrag;
+    }
+
+    <span class="kw">public</span> <span class="fu">launchNuklearMissile</span>(){
+        <span class="co">//Destroy Everything!</span>
+    }
+}</code></pre></div>
+<p>Weitere interessante Bennnung sind Doppelungen von Namen der Klasse sowie des Attributs und Methoden.</p>
+<p>Negativbeispiel:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Konto {
+    <span class="dt">int</span> kontoname;
+
+}</code></pre></div>
+<p>Hier ist das <code>Konto</code> zweimal drin.</p>
+<p>Besser wäre sowas:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Konto {
+    <span class="dt">int</span> name;
+
+}</code></pre></div>
+<h3 id="kommentare">4. Kommentare</h3>
+<p>Zu Wenig ist zu wenig und zuviel ist zuviel.</p>
+<h4 id="angebracht">Angebracht</h4>
+<ul>
+<li>Bei schwer verständlichen Programmteilen.</li>
+<li>Bei Verhalten, wenn es zu Beispiel die Laufzeit betrifft.</li>
+<li>Gedanken, wenn man für diese Lange braucht</li>
+<li>Bei Regular Expression, was dieser tut.</li>
+<li>TODOs kennzeichnen</li>
+</ul>
+<h4 id="unangebracht">Unangebracht</h4>
+<ul>
+<li>Sinnlos z.B. wenn der Name einer Funktion zum Satz formuliert wird</li>
+<li>Nicht bei Codeteilen, die als eigene Funktion ausgelagert werden müssten</li>
+</ul>
+<h3 id="dry-dont-repeat-yourself">5. DRY: Dont repeat yourself</h3>
+<p>Viele Fehler entstehen durch &quot;Kopieren&quot; und &quot;Einfügen&quot;. Ersetzen und durch Prozeduren/Funktionen.</p>
+<h3 id="yagni-you-aint-gonna-need-it">6. YAGNI: You aint gonna need it</h3>
+<p>Du wirst es nicht brauchen.</p>
+<p>Negativbeispiel:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Konto {
+    <span class="kw">public</span> bool <span class="fu">ueberweisung</span>(<span class="bu">String</span> empfaenger){...}
+    <span class="kw">public</span> bool <span class="fu">indieSchweizueberweisung</span>(<span class="bu">String</span> empfaenger){...}
+}</code></pre></div>
+<p>Die Methode <code>indieSchweizueberweisung</code>kann bei dem ersten Erscheinen eines Programmes für eine Bank überflüssig sein.</p>
+<h3 id="solid-single-responsibility">7. SOLID Single Responsibility</h3>
+<p>Eine Verantwortlichkeit pro Klasse.</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> myConnector {
+    <span class="dt">void</span> <span class="fu">connect</span>(){...}
+    <span class="dt">void</span> <span class="fu">terminateConnection</span>(){...}
+}</code></pre></div>
+<p>Eine <code>send()</code> sowie eine <code>receive()</code> Methode müssten in eine Seperate Classe ausgelagert werden.</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Communicator{
+    <span class="dt">void</span> <span class="fu">send</span>();
+    <span class="dt">void</span> <span class="fu">receive</span>();
+}</code></pre></div>
+<p>Grob kann man sagen, eine Klasse nicht mehr als so ca. 200 Zeilen beinhalten sollte, oder um die 15 Methoden.</p>
+<h3 id="solid-open-closed-prinzip">8. SOLID Open Closed Prinzip</h3>
+<p>Open for extension closed for modification Es kann erweitert werden, aber es muss dazu nicht verändert werden.</p>
+<p>Negativbeispiel:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Form{...}
+
+<span class="kw">for</span> Form f in FormListe{
+    <span class="kw">switch</span>(<span class="fu">typeof</span>(f)){
+        <span class="kw">case</span> Kreis: f.<span class="fu">zeichneKreis</span>();
+        <span class="kw">case</span> Quadrat: f.<span class="fu">zeichneQuadrat</span>();
+    }
+}</code></pre></div>
+<p>Die <code>switch case</code> Verzweigung muss jedes Mal neu angepasst werden, wenn diese Art der Implementierung in der Code Bases öfter auftritt, muss das an jeder Stelle noch mal geändert werden. Darum sollte die Klasse <code>Form</code> eine Methode <code>draw()</code> zur Verfügung stellen</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Form{
+    <span class="fu">zeichne</span>();
+}
+
+<span class="kw">for</span> Form f in FormList:
+    f.<span class="fu">draw</span>();</code></pre></div>
+<p>Die Unterklasse z.B. <code>Kreis</code> werden dann dazu gezwungen eine Implementierung von <code>draw()</code> zu übernehmen.</p>
+<h3 id="solid-liskovsches-substitutionsprinzip">9. SOLID Liskovsches Substitutionsprinzip</h3>
+<p>Vererbung, die nicht funktioniert:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Rechteck{
+    <span class="dt">float</span> breit;
+    <span class="dt">float</span> hoch;
+}
+
+<span class="kw">class</span> Quadrat <span class="kw">extends</span> Rechteck{
+    <span class="co">// hoch === breit</span>
+}</code></pre></div>
+<p>Jedes Quadrat ist ein Rechteck, funktioniert in der Mathematik aber nicht im programmiertechnischen Sinn. Die Klasse <code>Quadrat</code> kann nicht von <code>Rechteck</code> erben, weil die Höhe immer gleich der Breite ist.</p>
+<p>Andersherum geht das:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">class</span> Quadrat{
+    <span class="dt">float</span> breit;
+    
+    <span class="fu">flaeche</span>(){
+        <span class="kw">return</span> breit * breit
+    }
+}
+
+<span class="kw">class</span> Rechteck <span class="kw">extends</span> Quadrat{
+    <span class="dt">float</span> hoch;
+    
+    fläche(){
+        <span class="kw">return</span> hoch * breit
+    }
+
+}</code></pre></div>
+<p>In diesem Beispiel muss die Methode <code>flaeche()</code> noch Überschrieben werden.</p>
+<h3 id="solid-interface-segregation">10. SOLID Interface Segregation</h3>
+<p>Wenn von einem Interface geerbt wird, muss es auch gebraucht werden.</p>
+<p>Negativ Beispiel:</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">interface</span> Worker{
+    <span class="fu">eat</span>();
+    <span class="fu">work</span>();
+}
+
+<span class="kw">class</span> Mensch <span class="kw">implements</span> Worker{
+    <span class="fu">work</span>(){...}
+    <span class="fu">eat</span>(){...}
+}
+
+<span class="kw">class</span> <span class="bu">Robot</span> <span class="kw">implements</span> Worker{
+    <span class="fu">work</span>(){...}
+    <span class="fu">eat</span>(){} <span class="co">//&lt;- Zuviel</span>
+}</code></pre></div>
+<p>Die Methode <code>eat()</code> wird an die Klasse Robot mitgegeben, dies muss dann überschrieben werden und Leer gelassen bleiben (Toter Code). Besser wären in diesem Fall zwei Interfaces <code>Eats</code> und <code>Work</code>.</p>
+<div class="sourceCode"><pre class="sourceCode java"><code class="sourceCode java"><span class="kw">interface</span> Eats{
+    <span class="fu">eat</span>();
+}
+
+<span class="kw">interface</span> Worker {
+    <span class="fu">work</span>();
+}
+
+<span class="kw">class</span> Mensch <span class="kw">implements</span> Eats, Worker{
+    <span class="fu">work</span>(){...}
+    <span class="fu">eat</span>(){...}
+}
+
+<span class="kw">class</span> <span class="bu">Robot</span> <span class="kw">implements</span> Worker{
+    <span class="fu">work</span>(){...}
+}</code></pre></div>
+<h3 id="solid-dependency-inversion">11. SOLID Dependency Inversion</h3>
+<p>In Software haben wir mehrere Schichten:</p>
+<div class="figure">
+<img src="pic/Software_Schichten.png" alt="Software Schichten" />
+<p class="caption">Software Schichten</p>
+</div>
+<p>Eine <code>CopyPast</code> Interface braucht z.B. zwei weitere Klassen namens <code>ReadUserInput</code> und <code>WriteFile</code>. Das <code>CopyPast</code> ist aus einer sehr hohen Schicht (fast in der GUI Schicht). Die Klassen <code>ReadUserInput</code> und <code>WriteFile</code> sind in einer niedrigeren Schicht (<code>WriteFile</code> ist in der Persistenz Schicht).<code>CopyPast</code> hängt in diesem Fall von den beiden Klassen ab, jedoch möchte man das Umgekehrte erreichen. Um das zu bewerkstelligen wird nun eine Classe erstellt, die sich in einer höhren Schicht befindet. In unserem Beispiel <code>Reader</code> Klasse für <code>ReadTextInput</code> und eine <code>Writer</code> Classe für <code>WriteFile</code>.</p>
+<h3 id="sla-single-level-of-abstraction">12. SLA: Single Level of Abstraction</h3>
+<p>Methode hat eine Abstractionsebene in der geblieben werden soll. Diese Abstractionsebene sollten von Methode zu Methode abnehmen. Von der Abstrakteste Methode ruft nur Methoden auf, die von aussen für niemanden sichtbar sind. In diesen unteren Methoden verbergen dann die eigentlichen Rechenoperationen.</p>
+<h3 id="refactoring-und-pfadfinderregel">13. Refactoring und Pfadfinderregel</h3>
+<h4 id="pfadfinderregel">Pfadfinderregel</h4>
+<p>Man möchte den Code immer sauberer verlassen als man ihn Vorgefunden hat.</p>
+<h4 id="refactoring">Refactoring</h4>
+<h5 id="methoden-verändern">Methoden Verändern</h5>
+<p>Nach Aussen sollen sich Methoden nicht ändern. Was tun, wenn ein Parameter gebraucht wird, den es vorher nicht gab, einfache Lösung einsetzten default Parameter.</p>
+<ul>
+<li>Lange Methoden -&gt; Verwenden von Abstraktionsebenen</li>
+<li>Doppelten Code -&gt; Auslagern in Methoden</li>
+<li>Feature Envy <del>getA().getB().attr</del> -&gt; Methode extrahieren</li>
+<li>Data Klasse (Haben nur Daten ohne Funktionen) -&gt; aufteilen in Classen, die dann auch Methoden brauchen.</li>
+<li>Gott Klasse (Vielzuviel aufeinmal) -&gt; auslagern in verschiedene Klassen</li>
+</ul>
+<h5 id="testfälle">Testfälle</h5>
+<p>Nur mit Test Fallen bearbeiten, sonst besteht die Gefahr den Code zu zerstören, ohne es mitzubekommen.</p>
+<p>Immer wenn du dein eigenen Code nicht mehr verstehst, solltest du ihn überarbeiten.</p>
+<p>Ordentlichkeit vor Performenz erst aufräumen, dann schnell machen.</p>
